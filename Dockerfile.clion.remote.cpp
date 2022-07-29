@@ -9,6 +9,7 @@ RUN apt-get update \
       g++ \
       gdb \
       clang \
+      ccache \
       make \
       ninja-build \
       cmake \
