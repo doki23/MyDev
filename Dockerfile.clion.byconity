@@ -1,7 +1,4 @@
-# Build and run:
-#   docker build -t clion/ubuntu/cpp-env:1.0 -f Dockerfile.cpp-env-ubuntu .
-
-FROM --platform=linux/amd64 ubuntu:18.04
+FROM --platform=linux/amd64 ubuntu:22.04
 
 RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get -y install tzdata
 
@@ -25,7 +22,11 @@ RUN apt-get update \
       git \
   && apt-get clean
 
-RUN apt-get install -y sudo
+RUN apt-get install -y sudo \
+    && apt-get install -y curl
+
+RUN curl -L -o /tmp/foundationdb-clients_7.1.27-1_amd64.deb https://github.com/apple/foundationdb/releases/download/7.1.27/foundationdb-clients_7.1.27-1_amd64.deb \
+    && dpkg -i /tmp/foundationdb-clients_7.1.27-1_amd64.deb
 
 ARG UID=1000
 RUN adduser -u ${UID} --disabled-password --gecos '' dev \
